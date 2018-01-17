@@ -17,6 +17,7 @@
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.cleanTmpDir = true;
 
   # Register our boot device
   boot.initrd.luks.devices = [
@@ -118,7 +119,7 @@
 
   # Enable redshift
   services.redshift = {
-    enable = true;
+    enable = false;
     brightness.day = "0.8";
     brightness.night = "0.6";
     longitude = "11.98";
