@@ -32,7 +32,7 @@
         haskellPackages.cabal2nix
 
         # For my XMonad setup
-        dmenu dunst sxhkd
+        rofi dunst sxhkd
         compton scrot imagemagick
         xorg.xbacklight libnotify
      ];
