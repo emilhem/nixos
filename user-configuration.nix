@@ -23,7 +23,8 @@
         termite conkeror firefox
         dropbox-cli drive pass
         keybase pavucontrol stow
-        steam
+        steam rofi-pass gitAndTools.gitFull
+        bashCompletion gnupg openssh
 
         # Haskell development
         haskellPackages.ghc

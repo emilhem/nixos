@@ -29,24 +29,28 @@
     }
   ];
 
-  hardware.bluetooth.enable = true;
+  hardware = {
+    bluetooth.enable = true;
+    cpu.intel.updateMicrocode = true;
 
-  hardware.pulseaudio = {
-    enable = true;
+    opengl.extraPackages = [ pkgs.vaapiIntel ];
+    opengl.driSupport32Bit = true;
 
-    # NixOS allows either a lightweight build (default) or full build
-    # of PulseAudio to be installed. Only the full build has
-    # Bluetooth support, so it must be selected here.
-    package = pkgs.pulseaudioFull;
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
 
-    # Enable TCP streaming
-    tcp.enable = true;
-    tcp.anonymousClients.allowedIpRanges = [ "127.0.0.1" "192.168.1.0/24" ];
+      # NixOS allows either a lightweight build (default) or full build
+      # of PulseAudio to be installed. Only the full build has
+      # Bluetooth support, so it must be selected here.
+      package = pkgs.pulseaudioFull;
+
+      # Enable TCP streaming
+      tcp.enable = true;
+      tcp.anonymousClients.allowedIpRanges =
+        [ "127.0.0.1" "192.168.1.0/24" ];
+    };
   };
-
-  hardware.opengl.extraPackages = [ pkgs.vaapiIntel ];
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.support32Bit = true;
 
   # Define your hostname.
   networking.hostName = "nixjsb";
@@ -68,14 +72,11 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     acpi
-    bashCompletion
     coreutils
     cryptsetup
     curl
     ghostscript
-    gitAndTools.gitFull
     gtk3
-    gnupg
     openssh
     openssl
     utillinux
@@ -85,6 +86,11 @@
     zip
     zsh
   ];
+
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -96,7 +102,6 @@
 
   };
 
-  # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -107,12 +112,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.forwardX11 = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -128,42 +127,53 @@
 
   services.cron.enable = true;
 
-  services.emacs.enable = true;
+  services.emacs.install = true;
   services.emacs.defaultEditor = true;
 
   # Enable Mopidy music daemon
-  services.mopidy = {
-    enable = true;
-    extensionPackages = [ pkgs.mopidy-spotify pkgs.mopidy-mopify ];
-    configuration = ''
-      [local]
-      media_dir = /var/local/music/
+  # services.mopidy = {
+  #   enable = true;
+  #   extensionPackages = [ pkgs.mopidy-spotify ];
+  #   configuration = ''
+  #     [local]
+  #     media_dir = /var/local/music/
 
-      [spotify]
-      username = jassob
-      password = SECRET
-      client_id = SECRET
-      client_secret = SECRET
+  #     [spotify]
+  #     username = jassob
+  #     password = UUd92ZC$ZD^PSI9p
+  #     client_id = d5421fd1-30d7-4748-b0fe-07f1734821c7
+  #     client_secret = lsJp-NDRBjqv_My478ZvUa6RF_GRdnD22HYkHxfnSbc=
 
-      [spotify_web]
-      enabled = true
-      client_id = SECRET
-      client_secret = SECRET
+  #     [spotify_web]
+  #     enabled = true
+  #     client_id = d5421fd1-30d7-4748-b0fe-07f1734821c7
+  #     client_secret = lsJp-NDRBjqv_My478ZvUa6RF_GRdnD22HYkHxfnSbc=
 
-      [audio]
-      output = pulsesink server=127.0.0.1
-  '';
-  };
+  #     [audio]
+  #     output = pulsesink server=127.0.0.1
+  # '';
+  # };
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    displayManager.lightdm.enable = true;
-    desktopManager.gnome3.enable = true;
-    windowManager.exwm.enable = true;
-    windowManager.xmonad.enable = true;
-    desktopManager.default = "none";
-    windowManager.default = "xmonad";
+
+    displayManager = {
+      lightdm.enable = true;
+      lightdm.greeters.gtk.enable = true;
+      job.environment = { PATH = "$PATH:$HOME/.local/bin"; };
+    };
+
+    desktopManager = {
+      default = "none";
+      gnome3.enable = true;
+    };
+
+    windowManager = {
+      default = "xmonad";
+      exwm.enable = true;
+      xmonad.enable = true;
+    };
 
     # Keyboard
     layout = "se";
@@ -184,7 +194,6 @@
   };
 
   virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
 
   nixpkgs.config = {
     # Enable support for broadcom_sta
