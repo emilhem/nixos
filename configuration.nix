@@ -78,6 +78,9 @@
 
     # For terminfo we need to install termite as system package
     termite
+
+    # For virtualisation
+    virtmanager
   ];
 
   powerManagement = {
@@ -193,6 +196,8 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.qemuPackage = pkgs.qemu_kvm;
 
   nixpkgs.config = {
     # Enable support for broadcom_sta
