@@ -25,6 +25,7 @@
         keybase pavucontrol stow
         steam rofi-pass gitAndTools.gitFull
         bashCompletion gnupg openssh
+        usbutils pciutils
 
         # Haskell development
         haskellPackages.ghc
