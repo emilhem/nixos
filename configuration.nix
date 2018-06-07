@@ -15,7 +15,7 @@
       # ./machines/nixbook.nix # Zenbook
     ];
 
-  # Supposedly better for the SSD.
+  # Supposedly better for SSDs.
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
   boot.cleanTmpDir = true;
 
