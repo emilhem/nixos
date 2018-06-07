@@ -49,18 +49,7 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    acpi coreutils cryptsetup curl
-    ghostscript gtk3 openssh
-    openssl utillinux unrar vim
-    wget zip usbutils pciutils
-
-    # For terminfo we need to install termite as system package
-    termite
-
-    # For virtualisation
-    virtmanager
-  ];
+  environment.systemPackages = import ./packages/system.nix { inherit pkgs; };
 
   powerManagement = {
     enable = true;
