@@ -55,7 +55,7 @@
   # Define your hostname.
   networking.hostName = "nixjsb";
 
-  # Enables wireless support via wpa_supplicant.
+  # Enables wireless support via network-manager.
   networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
@@ -71,20 +71,13 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    acpi
-    coreutils
-    cryptsetup
-    curl
-    ghostscript
-    gtk3
-    openssh
-    openssl
-    utillinux
-    unrar
-    vim
-    wget
-    zip
-    zsh
+    acpi coreutils cryptsetup curl
+    ghostscript gtk3 openssh
+    openssl utillinux unrar vim
+    wget zip
+
+    # For terminfo we need to install termite as system package
+    termite
   ];
 
   powerManagement = {
@@ -94,13 +87,8 @@
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.bash = {
-    enableCompletion = true;
-
-    # fix problem with emacs tramp (https://github.com/NixOS/nixpkgs/issues/3368)
-    promptInit = "PS1=\"# \"";
-
-  };
+  programs.bash.enableCompletion = true;
+  programs.light.enable = true;
 
   programs.gnupg.agent = {
     enable = true;
@@ -124,6 +112,8 @@
     longitude = "11.98";
     latitude = "57.68";
   };
+
+  services.upower.enable = true;
 
   services.cron.enable = true;
 
@@ -172,7 +162,16 @@
     windowManager = {
       default = "xmonad";
       exwm.enable = true;
-      xmonad.enable = true;
+
+      xmonad = {
+        enable = true;
+        enableContribAndExtras = true;
+        extraPackages = haskellPackages: [
+          haskellPackages.xmonad-contrib
+          haskellPackages.xmonad-extras
+          haskellPackages.xmonad
+          haskellPackages.xmobar
+        ];};
     };
 
     # Keyboard
@@ -229,9 +228,9 @@
     ];
   };
 
-  # This value determines the NixOS release with which your system is
-  # to be compatible, in order to avoid breaking some software such as
-  # database servers. You should change this only after NixOS release
-  # notes say you should.
-  system.stateVersion = "17.09"; # Did you read the comment?
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid breaking some software such as database
+  # servers. You should change this only after NixOS release notes say you
+  # should.
+  system.stateVersion = "18.03"; # Did you read the comment?
 }

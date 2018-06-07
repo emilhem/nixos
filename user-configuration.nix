@@ -15,8 +15,8 @@
         "networkmanager" "docker"];
       createHome = true;
       uid = 1000;
-      shell = "/run/current-system/sw/bin/zsh";
       hashedPassword = "CREATE WITH mkpasswd -m sha-512";
+      shell = pkgs.zsh;
       packages = with pkgs;
       [
         # Applications
@@ -33,9 +33,9 @@
         haskellPackages.cabal2nix
 
         # For my XMonad setup
-        rofi dunst sxhkd
-        compton scrot imagemagick
-        xorg.xbacklight libnotify
+        rofi dunst sxhkd pamixer pavucontrol
+        compton scrot imagemagick ncmpcpp
+        xorg.xmessage libnotify
      ];
     };
   };
