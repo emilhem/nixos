@@ -9,34 +9,17 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./user-configuration.nix
+
+      # Machine configuration, choose one
+      # ./machines/nixjsb.nix  # Macbook
+      # ./machines/nixbook.nix # Zenbook
     ];
 
   # Supposedly better for the SSD.
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   boot.cleanTmpDir = true;
 
-  # Register our boot device
-  boot.initrd.luks.devices = [
-    {
-      name = "root";
-      device = "/dev/disk/by-uuid/e888a938-2281-491a-8978-580bb0948a1a";
-      preLVM = true;
-      allowDiscards = true;
-    }
-  ];
-
-  hardware = {
-    bluetooth.enable = true;
-    cpu.intel.updateMicrocode = true;
-
-    opengl.extraPackages = [ pkgs.vaapiIntel ];
-    opengl.driSupport32Bit = true;
-
-    pulseaudio = {
+  hardware.pulseaudio = {
       enable = true;
       support32Bit = true;
 
@@ -49,11 +32,7 @@
       tcp.enable = true;
       tcp.anonymousClients.allowedIpRanges =
         [ "127.0.0.1" "192.168.1.0/24" ];
-    };
   };
-
-  # Define your hostname.
-  networking.hostName = "nixjsb";
 
   # Enables wireless support via network-manager.
   networking.networkmanager.enable = true;
