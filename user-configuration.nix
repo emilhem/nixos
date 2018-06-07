@@ -26,6 +26,7 @@
         steam rofi-pass gitAndTools.gitFull
         bashCompletion gnupg openssh
         usbutils pciutils
+        sshfs
 
         # Haskell development
         haskellPackages.ghc
