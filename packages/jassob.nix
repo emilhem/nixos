@@ -40,4 +40,4 @@ with pkgs;
   ncmpcpp
   xorg.xmessage
   libnotify
-];
+]

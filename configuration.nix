@@ -12,7 +12,7 @@
 
       # Machine configuration, choose one
       # ./machines/nixjsb.nix  # Macbook
-      # ./machines/nixbook.nix # Zenbook
+      ./machines/nixbook.nix # Zenbook
     ];
 
   # Supposedly better for SSDs.
