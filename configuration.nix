@@ -9,10 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./user-configuration.nix
-
-      # Machine configuration, choose one
-      # ./machines/nixjsb.nix  # Macbook
-      ./machines/nixbook.nix # Zenbook
+      ./machines/nix-dell.nix
     ];
 
   # Supposedly better for SSDs.
@@ -69,19 +66,19 @@
     enableSSHSupport = true;
   };
 
-  programs.ssh.forwardX11 = true;
+  programs.ssh.forwardX11 = false;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.forwardX11 = true;
+  services.openssh.forwardX11 = false;
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable redshift
   services.redshift = {
     enable = false;
-    brightness.day = "0.8";
+    brightness.day = "1.0";
     brightness.night = "0.6";
     longitude = "11.98";
     latitude = "57.68";
@@ -89,42 +86,29 @@
 
   services.cron.enable = true;
 
-  services.emacs.install = true;
-  services.emacs.defaultEditor = true;
-
   # Enable Mopidy music daemon if ./services/mopidy.nix exists
-  services.mopidy = if builtins.pathExists ./services/mopidy.nix
-    then import ./services/mopidy.nix { pkg = pkgs.mopidy-spotify; }
-    else { enable = false; };
+  #services.mopidy = if builtins.pathExists ./services/mopidy.nix
+  #  then import ./services/mopidy.nix { pkg = pkgs.mopidy-spotify; }
+  #  else { enable = false; };
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
 
-    displayManager = {
-      lightdm.enable = true;
-      lightdm.greeters.gtk.enable = true;
-      job.environment = { PATH = "$PATH:$HOME/.local/bin"; };
-    };
+    #displayManager = {
+    #  lightdm.enable = true;
+    #  lightdm.greeters.gtk.enable = true;
+    #  job.environment = { PATH = "$PATH:$HOME/.local/bin"; };
+    #};
 
     desktopManager = {
       default = "none";
-      gnome3.enable = true;
+      xterm.enable = false;
     };
 
     windowManager = {
-      default = "xmonad";
-      exwm.enable = true;
-
-      xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        extraPackages = haskellPackages: [
-          haskellPackages.xmonad-contrib
-          haskellPackages.xmonad-extras
-          haskellPackages.xmonad
-          haskellPackages.xmobar
-        ];};
+      i3.enable = true;
+      default = "i3";
     };
 
     # Keyboard
@@ -135,37 +119,23 @@
   };
 
   # TiMidity++ Daemon
-  systemd.user.services.timidity = {
-    description = "TiMidity++ Daemon";
-    after = [ "sound.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.timidity}/bin/timidity -iA -Os";
-      ExecStop = "/run/current-system/sw/bin/pkill timidity";
-    };
-    wantedBy = [ "default.target" ];
-  };
+  #systemd.user.services.timidity = {
+  #  description = "TiMidity++ Daemon";
+  #  after = [ "sound.target" ];
+  #  serviceConfig = {
+  #    ExecStart = "${pkgs.timidity}/bin/timidity -iA -Os";
+  #    ExecStop = "/run/current-system/sw/bin/pkill timidity";
+  #  };
+  #  wantedBy = [ "default.target" ];
+  #};
 
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.qemuPackage = pkgs.qemu_kvm;
+  #virtualisation.docker.enable = true;
+  #virtualisation.libvirtd.enable = true;
+  #virtualisation.libvirtd.qemuPackage = pkgs.qemu_kvm;
 
   nixpkgs.config = {
     # Enable support for broadcom_sta
     allowUnfree = true;
-
-    # Overriding packages
-    # TODO: Add my emacs packages
-    packageOverrides = pkgs: {
-      # Define my own Emacs
-      emacs = pkgs.lib.overrideDerivation (pkgs.emacs.override {
-        # Use gtk3 instead of the default gtk2
-        withGTK3 = true;
-
-        # Make sure imagemagick is a dependency because I want to look
-        # at pictures in Emacs
-        imagemagick = pkgs.imagemagickBig;
-      }) (attrs: {});
-    };
   };
 
   # Fonts
@@ -179,7 +149,6 @@
       dejavu_fonts
       fira-code
       fira-code-symbols
-      hasklig
     ];
   };
 

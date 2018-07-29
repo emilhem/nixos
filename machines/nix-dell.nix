@@ -2,7 +2,7 @@
 
 {
   # Define your hostname.
-  networking.hostName = "nixbook";
+  networking.hostName = "nix-dell";
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -10,16 +10,7 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # Register our boot device
-  boot.initrd.luks.devices = [
-    {
-      name = "root";
-      device = "/dev/disk/by-uuid/c044de00-e58b-49e8-8a06-47fdf6ec439b";
-      preLVM = true;
-      allowDiscards = true;
-    }
-  ];
+  boot.loader.grub.useOSProber = true;
 
   hardware = {
     bluetooth.enable = true;

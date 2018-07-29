@@ -8,6 +8,7 @@ with pkgs;
   curl
   ghostscript
   gtk3
+  i3
   openssh
   openssl
   utillinux
