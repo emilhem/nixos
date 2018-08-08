@@ -26,9 +26,9 @@
     package = pkgs.pulseaudioFull;
 
     # Enable TCP streaming
-    tcp.enable = true;
-    tcp.anonymousClients.allowedIpRanges =
-      [ "127.0.0.1" "192.168.1.0/24" ];
+    #tcp.enable = true;
+    #tcp.anonymousClients.allowedIpRanges =
+    #  [ "127.0.0.1" "192.168.1.0/24" ];
   };
 
   # Enables wireless support via network-manager.
@@ -95,6 +95,8 @@
   services.xserver = {
     enable = true;
 
+    dpi = 170;
+
     #displayManager = {
     #  lightdm.enable = true;
     #  lightdm.greeters.gtk.enable = true;
@@ -116,6 +118,8 @@
     xkbOptions = "ctrl:nocaps";
 
     libinput.enable = true;
+
+#    config = "export TERMINAL=gnome-terminal;";
   };
 
   # TiMidity++ Daemon
@@ -135,7 +139,7 @@
 
   nixpkgs.config = {
     # Enable support for broadcom_sta
-    allowUnfree = true;
+    allowUnfree = false;
   };
 
   # Fonts
@@ -143,7 +147,7 @@
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
-      corefonts # Microsoft free fonts
+      #corefonts # Microsoft free fonts
       inconsolata
       ubuntu_font_family
       dejavu_fonts
