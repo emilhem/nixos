@@ -11,6 +11,7 @@ with pkgs;
   gnome3.dconf
   gnome3.gnome-terminal
   gnupg
+  keepassxc
   man
   networkmanager
   networkmanagerapplet
