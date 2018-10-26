@@ -12,7 +12,8 @@
       extraGroups =
       [ "wheel" "disk" "audio" "video"
         "systemd-journal" "sudo" "users"
-        "networkmanager"];
+        "networkmanager" "docker"
+        "wireshark" ];
       createHome = true;
       uid = 1000;
       hashedPassword = import ./passwd.nix;

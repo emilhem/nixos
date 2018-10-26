@@ -3,9 +3,11 @@ with pkgs;
 
 [
   acpi
+  bash
   coreutils
   cryptsetup
   curl
+  dnsutils
   gtk3
   openssh
   openssl
@@ -16,8 +18,17 @@ with pkgs;
   usbutils
   pciutils
 
+  mysql
+
   xorg.xbacklight
 
   # For virtualisation
-  #virtmanager
+  docker
+#  virtmanager
+#  qemu
+  virtualbox
+#  linuxPackages.virtualbox
+#  linuxPackages.virtualboxGuestAdditions
+#  linuxPackages_xen_dom0.virtualbox
+#  linuxPackages_xen_dom0.virtualboxGuestAdditions
 ]

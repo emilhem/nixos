@@ -3,6 +3,7 @@ with pkgs;
 
 [
   # Applications
+  alsaUtils
   bashCompletion
   blueman
   bluez
@@ -11,29 +12,45 @@ with pkgs;
   gnome3.dconf
   gnome3.gnome-terminal
   gnupg
-  keepassxc
+  keepassx2
   man
+  mupdf
   networkmanager
   networkmanagerapplet
   openssh
   pavucontrol
   pciutils
+  psmisc
   pulsemixer
   redshift
   sshfs
+  sublime3
+  tdesktop
   xfce.thunar
   thunderbird
+  zip
+  unzip
   usbutils
   vlc
+  vscode-with-extensions
+
+  # MySQL
+#  mysql
+
+  # Node.js
+  nodejs-8_x
+
+  # Libs
+  ffmpeg-full
+
+  # Python
+  python3Full
 
   # C/C++ stuff
-  gcc6
-# gcc7
-  gccStdenv
+#  gcc6
+  gcc7
   gnumake
-  libcxx
-  stdenv
-  libcxxStdenv
+  patchelf
 
   # Haskell development
   # haskellPackages.ghc
@@ -46,6 +63,10 @@ with pkgs;
   i3status
   i3lock
   dmenu
-  compton
-  scrot
+#  compton
+#  scrot
+
+  # Network Course (Chalmers)
+#  bochs
+#  perl
 ]

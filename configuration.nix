@@ -60,6 +60,8 @@
   # started in user sessions.
   programs.bash.enableCompletion = true;
   programs.light.enable = true;
+  programs.wireshark.enable = true;
+  programs.wireshark.package = pkgs.wireshark;
 
   programs.gnupg.agent = {
     enable = true;
@@ -118,9 +120,11 @@
     xkbOptions = "ctrl:nocaps";
 
     libinput.enable = true;
-
-#    config = "export TERMINAL=gnome-terminal;";
   };
+
+  # MySQL
+  services.mysql.package = pkgs.mariadb;
+  services.mysql.enable = true; # I start it manually
 
   # TiMidity++ Daemon
   #systemd.user.services.timidity = {
@@ -133,13 +137,17 @@
   #  wantedBy = [ "default.target" ];
   #};
 
-  #virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
+
   #virtualisation.libvirtd.enable = true;
   #virtualisation.libvirtd.qemuPackage = pkgs.qemu_kvm;
 
+  virtualisation.virtualbox.host.enable = true;
+  
+
   nixpkgs.config = {
     # Enable support for broadcom_sta
-    allowUnfree = false;
+    allowUnfree = true;
   };
 
   # Fonts
