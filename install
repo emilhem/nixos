@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Install the NixOS configuration to the system
+
+# Check if the script is being run as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Check if the script is being run from the correct directory
+if [ ! -f ./configuration.nix ]; then
+    echo "This script must be run from the directory containing the NixOS configuration" 1>&2
+    exit 1
+fi
+
+# Copy the NixOS configuration to the system
+cp -r * /etc/nixos/
+
+# remove the install script from the system
+rm /etc/nixos/install
