@@ -8,40 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./devices/desktop.nix
     ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices."luks-e2c988a6-41ef-4648-9540-e42331a490f5".device = "/dev/disk/by-uuid/e2c988a6-41ef-4648-9540-e42331a490f5";
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Allows Hibernation
-  security.protectKernelImage = false;
-
-  services.thermald.enable = true;
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-       governor = "powersave";
-       turbo = "never";
-    };
-    charger = {
-       governor = "performance";
-       turbo = "auto";
-    };
-  };
-
-  services.tailscale.enable = true;
-  services.tailscale.extraUpFlags = [
-    "--login-server=https://headscale.emil.hemdal.se"
-  ];
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -67,18 +35,13 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
   virtualisation.docker.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
-    xkbOptions = "caps:escape";
+    variant = "";
+    options = "caps:escape";
   };
   console.useXkbConfig = true;
 
@@ -118,20 +81,18 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
-      spotify
+      kdePackages.kate
+      keepassxc
       libreoffice-fresh
       libreoffice-fresh-unwrapped
       nextcloud-client
-      keepassxc
-      vscode-fhs
-      thunderbird
       obsidian
       signal-desktop
+      spotify
       telegram-desktop
+      thunderbird
+      vscode-fhs
       whatsapp-for-linux
-
-      warp-terminal
-      kitty
     ];
   };
 
@@ -146,7 +107,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    gnomeExtensions.appindicator
     git
     vim
     neovim
@@ -169,31 +129,6 @@
   };
 
   programs.direnv.enable = true;
-
-  # Taken from https://nixos.wiki/wiki/GNOME
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    baobab      # disk usage analyzer
-    eog         # image viewer
-    simple-scan # document scanner
-    yelp        # help viewer
-    cheese # webcam tool
-    gnome-music
-    # gnome-terminal
-    gedit # text editor
-    epiphany # web browser
-    geary # email reader
-    # evince # document viewer
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-
-  ]);
 
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -221,6 +156,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
