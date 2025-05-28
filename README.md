@@ -6,6 +6,11 @@ Don't use my repo for pointers on how to do things in Nix/NixOS, I'm still learn
 
 Old repo is here: https://github.com/emilhem/nixos-old
 
+## Framework 13 AMD AI
+
+I have a separate folder for my new laptop. I'm playing around with the config. When I've found a stable solution that I want to run I'll merge it together with the rest.
+
+
 ## Setup
 
 1. Clone
