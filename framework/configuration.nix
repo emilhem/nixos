@@ -53,6 +53,8 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  # iOS Networking
+  services.usbmuxd.enable = true;
 
   # Fingerprint
   systemd.services.fprintd = {
